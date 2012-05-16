@@ -15,8 +15,7 @@ namespace WindowsGame3
 	public class Cube : DrawableGameComponent
 	{
 		private BasicEffect effect;
-		private VertexPositionColor[] points;
-		private short[] cubeStrip;
+		private VertexPositionColor[] cubeList;
 
 		public Cube(Game game)
 			: base(game)
@@ -27,8 +26,7 @@ namespace WindowsGame3
 		{
 			base.Initialize();
 			effect = new BasicEffect(GraphicsDevice);
-			FillPoints();
-			CreateCubeStrip();
+			CreateCubeList();
 		}
 
 		protected override void LoadContent()
@@ -36,24 +34,57 @@ namespace WindowsGame3
 			base.LoadContent();
 		}
 
-		private void FillPoints()
+		private void CreateCubeList()
 		{
-			points = new VertexPositionColor[5];
+			cubeList = new VertexPositionColor[99];
 
-			points[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Black);
-			points[1] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Black);
-			points[2] = new VertexPositionColor(new Vector3(1, 0, 0), Color.Black);
-			points[3] = new VertexPositionColor(new Vector3(1, 1, 0), Color.Black);
-		}
+			cubeList[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Blue);
+			cubeList[1] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Blue);
+			cubeList[2] = new VertexPositionColor(new Vector3(1, 0, 0), Color.Blue);
 
-		private void CreateCubeStrip()
-		{
-			cubeStrip = new short[4];
+			cubeList[3] = new VertexPositionColor(new Vector3(1, 0, 0), Color.Blue);
+			cubeList[4] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Blue);
+			cubeList[5] = new VertexPositionColor(new Vector3(1, 1, 0), Color.Blue);
 
-			cubeStrip[0] = 0;
-			cubeStrip[1] = 1;
-			cubeStrip[2] = 2;
-			cubeStrip[3] = 3;
+			cubeList[6] = new VertexPositionColor(new Vector3(1, 1, 0), Color.Red);
+			cubeList[7] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Red);
+			cubeList[8] = new VertexPositionColor(new Vector3(1, 1, 1), Color.Red);
+
+			cubeList[9] = new VertexPositionColor(new Vector3(1, 1, 1), Color.Red);
+			cubeList[10] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Red);
+			cubeList[11] = new VertexPositionColor(new Vector3(0, 1, 1), Color.Red);
+
+			cubeList[12] = new VertexPositionColor(new Vector3(1, 1, 1), Color.Yellow);
+			cubeList[13] = new VertexPositionColor(new Vector3(1, 1, 0), Color.Yellow);
+			cubeList[14] = new VertexPositionColor(new Vector3(1, 0, 0), Color.Yellow);
+
+			cubeList[15] = new VertexPositionColor(new Vector3(1, 1, 1), Color.Yellow);
+			cubeList[16] = new VertexPositionColor(new Vector3(1, 0, 0), Color.Yellow);
+			cubeList[17] = new VertexPositionColor(new Vector3(1, 0, 1), Color.Yellow);
+
+			cubeList[18] = new VertexPositionColor(new Vector3(1, 0, 0), Color.Purple);
+			cubeList[19] = new VertexPositionColor(new Vector3(1, 0, 1), Color.Purple);
+			cubeList[20] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Purple);
+
+			cubeList[21] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Purple);
+			cubeList[22] = new VertexPositionColor(new Vector3(1, 0, 1), Color.Purple);
+			cubeList[23] = new VertexPositionColor(new Vector3(0, 0, 1), Color.Purple);
+
+			cubeList[24] = new VertexPositionColor(new Vector3(0, 1, 1), Color.Gray);
+			cubeList[25] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Gray);
+			cubeList[26] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Gray);
+
+			cubeList[27] = new VertexPositionColor(new Vector3(0, 1, 1), Color.Gray);
+			cubeList[28] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Gray);
+			cubeList[29] = new VertexPositionColor(new Vector3(0, 0, 1), Color.Gray);
+
+			cubeList[30] = new VertexPositionColor(new Vector3(0, 0, 1), Color.Green);
+			cubeList[31] = new VertexPositionColor(new Vector3(0, 1, 1), Color.Green);
+			cubeList[32] = new VertexPositionColor(new Vector3(1, 0, 1), Color.Green);
+
+			cubeList[33] = new VertexPositionColor(new Vector3(1, 0, 1), Color.Green);
+			cubeList[34] = new VertexPositionColor(new Vector3(0, 1, 1), Color.Green);
+			cubeList[35] = new VertexPositionColor(new Vector3(1, 1, 1), Color.Green);
 		}
 
 		public override void Update(GameTime gameTime)
@@ -72,10 +103,7 @@ namespace WindowsGame3
 			{
 				pass.Apply();
 
-				//GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineList, points, 0, 5, lineList, 0, 2);
-				//GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineStrip, points, 0, 5, lineStrip, 0, 2);
-				//GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, points, 0, 4, triangleList, 0, 2);
-				//GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, points, 0, 4, triangleStrip, 0, 2);
+				GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, cubeList, 0, 12, VertexPositionColor.VertexDeclaration);
 			}
 			base.Draw(gameTime);
 		}

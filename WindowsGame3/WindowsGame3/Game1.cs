@@ -22,6 +22,7 @@ namespace WindowsGame3
 		public Camera camera { get; protected set; }
 		private DrawUserPrimitivesAssignment drawUserPrimitivesAssignment;
 		private DrawUserIndexedPrimitivesAssignment drawUserIndexedPrimitivesAssignment;
+		private Cube cube;
 
         public Game1()
         {
@@ -43,6 +44,9 @@ namespace WindowsGame3
 
 			drawUserIndexedPrimitivesAssignment = new DrawUserIndexedPrimitivesAssignment(this);
 			this.Components.Add(drawUserIndexedPrimitivesAssignment);
+
+			cube = new Cube(this);
+			this.Components.Add(cube);
         }
 
         protected override void Initialize()
