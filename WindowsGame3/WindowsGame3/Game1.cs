@@ -35,7 +35,7 @@ namespace WindowsGame3
             camera = new Camera(this);
             this.Components.Add(camera);
 
-			//opdracht 3a: aan de rechterkant van de driehoek zie ik de driehoek niet, maar aan de linkerkant wel
+			//opdracht 2a: aan de rechterkant van de driehoek zie ik de driehoek niet, maar aan de linkerkant wel
 			Triangle triangle = new Triangle(this, new Vector3(0, 0, 0), new Vector3(0, 0.5f, 0), new Vector3(0, 0, 0.5f), Color.Blue);
 			//this.Components.Add(triangle);
 
