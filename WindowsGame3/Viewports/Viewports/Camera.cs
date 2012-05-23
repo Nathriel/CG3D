@@ -23,37 +23,16 @@ namespace Viewports
 		private Vector3 target;
 		private Vector3 up;
 
-		public Camera(Game game)
+		public Camera(Game game, Matrix projection, Vector3 pos)
 			: base(game)
 		{
-			pos = new Vector3(1.5f, 1.5f, 4f);
-			target = Vector3.Zero; // (0, 0, 0)
-			up = Vector3.UnitY; // (0, 1, 0)
+			this.pos = pos;
+			target = Vector3.Zero;
+			up = Vector3.UnitY;;
 
 			view = Matrix.CreateLookAt(pos, target, up);
 
-			// opdracht 1a: Het achter clippingplane komt voor het assenstelsel te staan, dus zie je het assenstelsel ook niet meer.
-
-			// opdracht 1c:
-			projection =
-				Matrix.CreatePerspectiveFieldOfView(
-					MathHelper.PiOver4, //Field of Vision
-					(float)Game.Window.ClientBounds.Width /
-					(float)Game.Window.ClientBounds.Height, //Aspect Ratio
-					1, //Camera clippingplane
-					10 //achter clippingplane
-				);
-			// opdracht 4:
-			/*
-			Matrix.CreateOrthographicOffCenter(
-				-3.0f, //links
-				3.0f, //rechts / scherm breedte
-				-3.0f, // boven / scherm hoogte
-				3.0f, // beleden
-				-3.0f, //camera clippingplane
-				10.0f //achter clippingplane
-			);
-			*/
+			this.projection = projection;
 		}
 
 		public override void Initialize()
@@ -63,32 +42,28 @@ namespace Viewports
 
 		public override void Update(GameTime gameTime)
 		{
-			/*
-			if (Keyboard.GetState().IsKeyDown(Keys.Left))
+			base.Update(gameTime);
+		}
+
+		public void Move(String direction)
+		{
+			if (direction == "left")
 			{
 				pos.X -= 0.1f;
-				view = Matrix.CreateLookAt(pos, target, up);
 			}
-
-			if (Keyboard.GetState().IsKeyDown(Keys.Right))
+			else if (direction == "right")
 			{
 				pos.X += 0.1f;
-				view = Matrix.CreateLookAt(pos, target, up);
 			}
-
-			if (Keyboard.GetState().IsKeyDown(Keys.Up))
+			else if (direction == "up")
 			{
 				pos.Y += 0.1f;
-				view = Matrix.CreateLookAt(pos, target, up);
 			}
-
-			if (Keyboard.GetState().IsKeyDown(Keys.Down))
+			else if (direction == "down")
 			{
 				pos.Y -= 0.1f;
-				view = Matrix.CreateLookAt(pos, target, up);
 			}
-			*/
-			base.Update(gameTime);
+			view = Matrix.CreateLookAt(pos, target, up);
 		}
 	}
 }

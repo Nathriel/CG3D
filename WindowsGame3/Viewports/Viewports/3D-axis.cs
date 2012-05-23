@@ -16,14 +16,14 @@ namespace Viewports
 {
     public class _3D_axis : DrawableGameComponent
     {
-        private VertexPositionColor[] vertices;
-		private BasicEffect effect;
+		private VertexPositionColor[] vertices;
 
-		public BasicEffect Effect
+		public VertexPositionColor[] Vertices
 		{
-			get { return effect; }
-			set { effect = value; }
+			get { return vertices; }
+			set { vertices = value; }
 		}
+
 		private bool enabled;
 
 
@@ -44,7 +44,6 @@ namespace Viewports
         public override void Initialize()
         {
             base.Initialize();
-            effect = new BasicEffect(GraphicsDevice);
         }
 
         public override void Update(GameTime gameTime)
@@ -59,21 +58,6 @@ namespace Viewports
 
         public override void Draw(GameTime gameTime)
         {
-            effect.World = Matrix.Identity;
-            effect.View = ((Game1)this.Game).camera.view;
-            effect.Projection = ((Game1)this.Game).camera.projection;
-            effect.VertexColorEnabled = true;
-
-			if (enabled)
-			{
-				foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-				{
-					pass.Apply();
-					GraphicsDevice.DrawUserPrimitives<VertexPositionColor>
-						(PrimitiveType.LineList, vertices, 0, 3);
-				}
-			}
-
             base.Draw(gameTime);
         }
     }

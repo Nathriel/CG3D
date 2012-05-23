@@ -14,8 +14,20 @@ namespace Viewports
 {
 	public class Cube : DrawableGameComponent
 	{
-		private BasicEffect effect;
-		private VertexPositionColor[] cubeList;
+		private VertexPositionColor[] points;
+
+		public VertexPositionColor[] Points
+		{
+			get { return points; }
+			set { points = value; }
+		}
+
+		private short[] cubeStrip;
+		public short[] CubeStrip
+		{
+			get { return cubeStrip; }
+			set { cubeStrip = value; }
+		}
 
 		public Cube(Game game)
 			: base(game)
@@ -25,8 +37,8 @@ namespace Viewports
 		public override void Initialize()
 		{
 			base.Initialize();
-			effect = new BasicEffect(GraphicsDevice);
-			CreateCubeList();
+			FillPoints();
+			CreateCubeStrip();
 		}
 
 		protected override void LoadContent()
@@ -34,57 +46,87 @@ namespace Viewports
 			base.LoadContent();
 		}
 
-		private void CreateCubeList()
+		private void FillPoints()
 		{
-			cubeList = new VertexPositionColor[99];
+			points = new VertexPositionColor[8];
 
-			cubeList[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Blue);
-			cubeList[1] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Blue);
-			cubeList[2] = new VertexPositionColor(new Vector3(1, 0, 0), Color.Blue);
+			points[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Black);
+			points[1] = new VertexPositionColor(new Vector3(1, 0, 0), Color.Black);
+			points[2] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Black);
+			points[3] = new VertexPositionColor(new Vector3(1, 1, 0), Color.Black);
+			points[4] = new VertexPositionColor(new Vector3(1, 1, 1), Color.Black);
+			points[5] = new VertexPositionColor(new Vector3(0, 1, 1), Color.Black);
+			points[6] = new VertexPositionColor(new Vector3(1, 0, 1), Color.Black);
+			points[7] = new VertexPositionColor(new Vector3(0, 0, 1), Color.Black);
+		}
 
-			cubeList[3] = new VertexPositionColor(new Vector3(1, 0, 0), Color.Blue);
-			cubeList[4] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Blue);
-			cubeList[5] = new VertexPositionColor(new Vector3(1, 1, 0), Color.Blue);
+		private void CreateCubeStrip()
+		{
+			cubeStrip = new short[35];
 
-			cubeList[6] = new VertexPositionColor(new Vector3(1, 1, 0), Color.Red);
-			cubeList[7] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Red);
-			cubeList[8] = new VertexPositionColor(new Vector3(1, 1, 1), Color.Red);
+			cubeStrip[0] = 0;
+			cubeStrip[1] = 2;
+			cubeStrip[2] = 1;
+			cubeStrip[3] = 3;
 
-			cubeList[9] = new VertexPositionColor(new Vector3(1, 1, 1), Color.Red);
-			cubeList[10] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Red);
-			cubeList[11] = new VertexPositionColor(new Vector3(0, 1, 1), Color.Red);
+			cubeStrip[4] = 6;
 
-			cubeList[12] = new VertexPositionColor(new Vector3(1, 1, 1), Color.Yellow);
-			cubeList[13] = new VertexPositionColor(new Vector3(1, 1, 0), Color.Yellow);
-			cubeList[14] = new VertexPositionColor(new Vector3(1, 0, 0), Color.Yellow);
+			cubeStrip[5] = 4;
+			cubeStrip[6] = 5;
+			cubeStrip[7] = 3;
+			cubeStrip[8] = 2;
+			cubeStrip[9] = 0;
+			cubeStrip[10] = 5;
+			cubeStrip[11] = 7;
+			cubeStrip[12] = 6;
+			cubeStrip[13] = 0;
+			cubeStrip[14] = 1;
+		}
 
-			cubeList[15] = new VertexPositionColor(new Vector3(1, 1, 1), Color.Yellow);
-			cubeList[16] = new VertexPositionColor(new Vector3(1, 0, 0), Color.Yellow);
-			cubeList[17] = new VertexPositionColor(new Vector3(1, 0, 1), Color.Yellow);
-
-			cubeList[18] = new VertexPositionColor(new Vector3(1, 0, 0), Color.Purple);
-			cubeList[19] = new VertexPositionColor(new Vector3(1, 0, 1), Color.Purple);
-			cubeList[20] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Purple);
-
-			cubeList[21] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Purple);
-			cubeList[22] = new VertexPositionColor(new Vector3(1, 0, 1), Color.Purple);
-			cubeList[23] = new VertexPositionColor(new Vector3(0, 0, 1), Color.Purple);
-
-			cubeList[24] = new VertexPositionColor(new Vector3(0, 1, 1), Color.Gray);
-			cubeList[25] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Gray);
-			cubeList[26] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Gray);
-
-			cubeList[27] = new VertexPositionColor(new Vector3(0, 1, 1), Color.Gray);
-			cubeList[28] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Gray);
-			cubeList[29] = new VertexPositionColor(new Vector3(0, 0, 1), Color.Gray);
-
-			cubeList[30] = new VertexPositionColor(new Vector3(0, 0, 1), Color.Green);
-			cubeList[31] = new VertexPositionColor(new Vector3(0, 1, 1), Color.Green);
-			cubeList[32] = new VertexPositionColor(new Vector3(1, 0, 1), Color.Green);
-
-			cubeList[33] = new VertexPositionColor(new Vector3(1, 0, 1), Color.Green);
-			cubeList[34] = new VertexPositionColor(new Vector3(0, 1, 1), Color.Green);
-			cubeList[35] = new VertexPositionColor(new Vector3(1, 1, 1), Color.Green);
+		public void Move(String direction)
+		{
+			if (direction == "left")
+			{
+				for (int i = 0; i < points.Length; i++ )
+				{
+					points[i].Position.X -= 0.1f;
+				}
+			}
+			else if (direction == "right")
+			{
+				for (int i = 0; i < points.Length; i++)
+				{
+					points[i].Position.X += 0.1f;
+				}
+			}
+			else if (direction == "up")
+			{
+				for (int i = 0; i < points.Length; i++)
+				{
+					points[i].Position.Y += 0.1f;
+				}
+			}
+			else if (direction == "down")
+			{
+				for (int i = 0; i < points.Length; i++)
+				{
+					points[i].Position.Y -= 0.1f;
+				}
+			}
+			else if (direction == "front")
+			{
+				for (int i = 0; i < points.Length; i++)
+				{
+					points[i].Position.Z += 0.1f;
+				}
+			}
+			else if (direction == "back")
+			{
+				for (int i = 0; i < points.Length; i++)
+				{
+					points[i].Position.Z -= 0.1f;
+				}
+			}
 		}
 
 		public override void Update(GameTime gameTime)
@@ -94,17 +136,6 @@ namespace Viewports
 
 		public override void Draw(GameTime gameTime)
 		{
-			effect.World = Matrix.Identity;
-			effect.View = ((Game1)this.Game).camera.view;
-			effect.Projection = ((Game1)this.Game).camera.projection;
-			effect.VertexColorEnabled = true;
-
-			foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-			{
-				pass.Apply();
-
-				GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, cubeList, 0, 12, VertexPositionColor.VertexDeclaration);
-			}
 			base.Draw(gameTime);
 		}
 	}

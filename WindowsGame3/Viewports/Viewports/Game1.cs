@@ -18,9 +18,17 @@ namespace Viewports
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
+		private BasicEffect effect;
 		private _3D_axis assenstelsel;
-		public Camera camera { get; protected set; }
+		public Camera camera1 { get; protected set; }
+		public Camera camera2 { get; protected set; }
 		private Cube cube;
+
+		Viewport defaultViewport;
+		Viewport leftViewport;
+		Viewport rightViewport;
+		Matrix projectionMatrix;
+		Matrix halfprojectionMatrix;
 
 		public Game1()
 		{
@@ -30,8 +38,12 @@ namespace Viewports
 			assenstelsel = new _3D_axis(this);
 			this.Components.Add(assenstelsel);
 
-			camera = new Camera(this);
-			this.Components.Add(camera);
+			projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 4.0f / 3.0f, 1.0f, 10000f);
+			halfprojectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 2.0f / 3.0f, 1.0f, 10000f);
+
+			camera1 = new Camera(this, halfprojectionMatrix, new Vector3(1f, 1f, 5f));
+
+			camera2 = new Camera(this, halfprojectionMatrix, new Vector3(0f, 0f, 5f));
 
 			cube = new Cube(this);
 			this.Components.Add(cube);
@@ -39,6 +51,7 @@ namespace Viewports
 
 		protected override void Initialize()
 		{
+			effect = new BasicEffect(GraphicsDevice);
 			base.Initialize();
 		}
 
@@ -46,6 +59,13 @@ namespace Viewports
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
+
+			defaultViewport = GraphicsDevice.Viewport;
+			leftViewport = defaultViewport;
+			rightViewport = defaultViewport;
+			leftViewport.Width = leftViewport.Width / 2;
+			rightViewport.Width = rightViewport.Width / 2;
+			rightViewport.X = leftViewport.Width;
 		}
 
 		protected override void Update(GameTime gameTime)
@@ -54,14 +74,72 @@ namespace Viewports
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 				this.Exit();
 
+			if (Keyboard.GetState().IsKeyDown(Keys.Left))
+			{
+				cube.Move("left");
+			}
+			else if (Keyboard.GetState().IsKeyDown(Keys.Right))
+			{
+				cube.Move("right");
+			}
+			else if (Keyboard.GetState().IsKeyDown(Keys.Up) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+			{
+				cube.Move("up");
+			}
+			else if (Keyboard.GetState().IsKeyDown(Keys.Down) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+			{
+				cube.Move("down");
+			}
+			else if (Keyboard.GetState().IsKeyDown(Keys.Up) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+			{
+				cube.Move("front");
+			}
+			else if (Keyboard.GetState().IsKeyDown(Keys.Down) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+			{
+				cube.Move("back");
+			}
+
+
 			base.Update(gameTime);
 		}
 
 		protected override void Draw(GameTime gameTime)
 		{
+			GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+
+			GraphicsDevice.Viewport = defaultViewport;
 			GraphicsDevice.Clear(Color.White);
 
-			GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+			GraphicsDevice.Viewport = leftViewport;
+			effect.World = Matrix.Identity;
+			effect.View = camera1.view;
+			effect.Projection = camera1.projection;
+			effect.VertexColorEnabled = true;
+			foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+			{
+				pass.Apply();
+
+				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
+
+				GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+			}
+
+			GraphicsDevice.Viewport = rightViewport;
+			effect.World = Matrix.Identity;
+			effect.View = camera2.view;
+			effect.Projection = camera2.projection;
+			effect.VertexColorEnabled = true;
+			foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+			{
+				pass.Apply();
+
+				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
+
+				GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+			}
+
+
+			
 
 			base.Draw(gameTime);
 		}
