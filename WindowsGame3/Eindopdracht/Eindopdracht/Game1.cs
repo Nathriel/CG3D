@@ -25,11 +25,15 @@ namespace Eindopdracht
 		private _3D_axis assenstelsel;
 		public Camera camera1 { get; protected set; }
 		public Camera camera2 { get; protected set; }
+		public Camera camera3 { get; protected set; }
+		public Camera camera4 { get; protected set; }
 		private Cube cube;
 
 		Viewport defaultViewport;
-		Viewport leftViewport;
-		Viewport rightViewport;
+		Viewport leftTopViewport;
+		Viewport rightTopViewport;
+		Viewport leftBottomViewport;
+		Viewport rightBottomViewport;
 		Matrix projectionMatrix;
 		Matrix halfprojectionMatrix;
 
@@ -47,6 +51,10 @@ namespace Eindopdracht
 			camera1 = new Camera(this, halfprojectionMatrix, new Vector3(0f, 0f, 10f), Vector3.UnitY);
 
 			camera2 = new Camera(this, halfprojectionMatrix, new Vector3(0f, 10f, 0f), Vector3.UnitZ);
+
+			camera3 = new Camera(this, halfprojectionMatrix, new Vector3(10f, 0f, 0f), Vector3.UnitZ);
+			
+			camera4 = new Camera(this, halfprojectionMatrix, new Vector3(10f, 10f, 10f), Vector3.UnitZ);
 
 			cube = new Cube(this);
 			this.Components.Add(cube);
@@ -76,11 +84,26 @@ namespace Eindopdracht
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			defaultViewport = GraphicsDevice.Viewport;
-			leftViewport = defaultViewport;
-			rightViewport = defaultViewport;
-			leftViewport.Width = leftViewport.Width / 2;
-			rightViewport.Width = rightViewport.Width / 2;
-			rightViewport.X = leftViewport.Width;
+			leftTopViewport = defaultViewport;
+			rightTopViewport = defaultViewport;
+			leftBottomViewport = defaultViewport;
+			rightBottomViewport = defaultViewport;
+
+			leftTopViewport.Width = leftTopViewport.Width / 2;
+			leftBottomViewport.Width = leftTopViewport.Width;
+			rightTopViewport.Width = rightTopViewport.Width / 2;
+			rightBottomViewport.Width = rightTopViewport.Width;
+
+			leftTopViewport.Height = defaultViewport.Height / 2;
+			rightTopViewport.Height = defaultViewport.Height / 2;
+			leftBottomViewport.Height = defaultViewport.Height / 2;
+			rightBottomViewport.Height = defaultViewport.Height / 2;
+
+			rightTopViewport.X = leftTopViewport.Width;
+			rightBottomViewport.X = leftBottomViewport.Width;
+			rightBottomViewport.Y = rightTopViewport.Height;
+			leftTopViewport.Y = leftTopViewport.Height;
+
 			// TODO: use this.Content to load your game content here
 		}
 
@@ -144,7 +167,7 @@ namespace Eindopdracht
 			GraphicsDevice.Viewport = defaultViewport;
 			GraphicsDevice.Clear(Color.White);
 
-			GraphicsDevice.Viewport = leftViewport;
+			GraphicsDevice.Viewport = leftTopViewport;
 			effect.World = Matrix.Identity;
 			effect.View = camera1.view;
 			effect.Projection = camera1.projection;
@@ -158,10 +181,38 @@ namespace Eindopdracht
 				GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
 			}
 
-			GraphicsDevice.Viewport = rightViewport;
+			GraphicsDevice.Viewport = leftBottomViewport;
 			effect.World = Matrix.Identity;
 			effect.View = camera2.view;
 			effect.Projection = camera2.projection;
+			effect.VertexColorEnabled = true;
+			foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+			{
+				pass.Apply();
+
+				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
+
+				GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+			}
+
+			GraphicsDevice.Viewport = rightTopViewport;
+			effect.World = Matrix.Identity;
+			effect.View = camera3.view;
+			effect.Projection = camera3.projection;
+			effect.VertexColorEnabled = true;
+			foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+			{
+				pass.Apply();
+
+				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
+
+				GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+			}
+
+			GraphicsDevice.Viewport = rightBottomViewport;
+			effect.World = Matrix.Identity;
+			effect.View = camera4.view;
+			effect.Projection = camera4.projection;
 			effect.VertexColorEnabled = true;
 			foreach (EffectPass pass in effect.CurrentTechnique.Passes)
 			{
