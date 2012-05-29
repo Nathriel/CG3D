@@ -36,6 +36,7 @@ namespace Eindopdracht
 		Viewport rightBottomViewport;
 		Matrix projectionMatrix;
 		Matrix halfprojectionMatrix;
+		Matrix quadprojectionMatrix;
 
 		public Game1()
 		{
@@ -47,14 +48,15 @@ namespace Eindopdracht
 
 			projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 4.0f / 3.0f, 1.0f, 10000f);
 			halfprojectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 2.0f / 3.0f, 1.0f, 10000f);
+			quadprojectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 2.0f / 1.5f, 1.0f, 10000f);
 
-			camera1 = new Camera(this, halfprojectionMatrix, new Vector3(0f, 0f, 10f), Vector3.UnitY);
+			camera1 = new Camera(this, quadprojectionMatrix, new Vector3(0f, 0f, 10f), Vector3.UnitY);
 
-			camera2 = new Camera(this, halfprojectionMatrix, new Vector3(0f, 10f, 0f), Vector3.UnitZ);
+			camera2 = new Camera(this, quadprojectionMatrix, new Vector3(0f, 10f, 0f), Vector3.UnitZ);
 
-			camera3 = new Camera(this, halfprojectionMatrix, new Vector3(10f, 0f, 0f), Vector3.UnitZ);
-			
-			camera4 = new Camera(this, halfprojectionMatrix, new Vector3(10f, 10f, 10f), Vector3.UnitZ);
+			camera3 = new Camera(this, quadprojectionMatrix, new Vector3(0f, 0f, 10f), Vector3.UnitX);
+
+			camera4 = new Camera(this, quadprojectionMatrix, new Vector3(10f, 10f, 10f), Vector3.UnitZ);
 
 			cube = new Cube(this);
 			this.Components.Add(cube);
@@ -102,7 +104,7 @@ namespace Eindopdracht
 			rightTopViewport.X = leftTopViewport.Width;
 			rightBottomViewport.X = leftBottomViewport.Width;
 			rightBottomViewport.Y = rightTopViewport.Height;
-			leftTopViewport.Y = leftTopViewport.Height;
+			leftBottomViewport.Y = leftTopViewport.Height;
 
 			// TODO: use this.Content to load your game content here
 		}
