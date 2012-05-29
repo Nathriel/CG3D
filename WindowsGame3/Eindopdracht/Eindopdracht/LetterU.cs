@@ -12,9 +12,8 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Eindopdracht
 {
-	public class LetterL : DrawableGameComponent
+	public class LetterU : DrawableGameComponent
 	{
-
 		private Cube[] cubeList;
 		public Cube[] CubeList
 		{
@@ -22,14 +21,17 @@ namespace Eindopdracht
 			set { cubeList = value; }
 		}
 
-		public LetterL(Game game, Vector3 startPoint, Color color)
+		public LetterU(Game game, Vector3 startPoint, Color color)
 			: base(game)
 		{
-			cubeList = new Cube[4];
+			cubeList = new Cube[7];
 			cubeList[0] = new Cube(game, startPoint + new Vector3(0f, 2f, 0f), color);
 			cubeList[1] = new Cube(game, startPoint + new Vector3(0f, 1f, 0f), color);
 			cubeList[2] = new Cube(game, startPoint + new Vector3(0f, 0f, 0f), color);
 			cubeList[3] = new Cube(game, startPoint + new Vector3(1f, 0f, 0f), color);
+			cubeList[4] = new Cube(game, startPoint + new Vector3(2f, 0f, 0f), color);
+			cubeList[5] = new Cube(game, startPoint + new Vector3(2f, 1f, 0f), color);
+			cubeList[6] = new Cube(game, startPoint + new Vector3(2f, 2f, 0f), color);
 		}
 
 		public override void Initialize()

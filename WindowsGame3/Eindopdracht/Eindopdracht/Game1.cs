@@ -27,7 +27,9 @@ namespace Eindopdracht
 		public Camera camera2 { get; protected set; }
 		public Camera camera3 { get; protected set; }
 		public Camera camera4 { get; protected set; }
-		private LetterL letterL;
+		private LetterL firstLetter;
+		private LetterU secondLetter;
+		private LetterL thirdLetter;
 
 		Viewport defaultViewport;
 		Viewport leftTopViewport;
@@ -54,12 +56,16 @@ namespace Eindopdracht
 
 			camera2 = new Camera(this, quadprojectionMatrix, new Vector3(0f, 10f, 0f), Vector3.UnitZ);
 
-			camera3 = new Camera(this, quadprojectionMatrix, new Vector3(0f, 0f, 10f), Vector3.UnitX);
+			camera3 = new Camera(this, quadprojectionMatrix, new Vector3(30f, 0f, 10f), Vector3.UnitY);
 
-			camera4 = new Camera(this, quadprojectionMatrix, new Vector3(10f, 10f, 10f), Vector3.UnitZ);
+			camera4 = new Camera(this, quadprojectionMatrix, new Vector3(10f, 10f, 10f), Vector3.UnitY);
 
-			letterL = new LetterL(this);
-			this.Components.Add(letterL);
+			firstLetter = new LetterL(this, new Vector3(-4, 0, 0), Color.Blue);
+			this.Components.Add(firstLetter);
+			secondLetter = new LetterU(this, new Vector3(-1, 0, 0), Color.Red);
+			this.Components.Add(secondLetter);
+			thirdLetter = new LetterL(this, new Vector3(3, 0, 0), Color.Green);
+			this.Components.Add(thirdLetter);
 		}
 
 		/// <summary>
@@ -131,31 +137,71 @@ namespace Eindopdracht
 
 			if (Keyboard.GetState().IsKeyDown(Keys.Left))
 			{
-				letterL.Move("left");
+				firstLetter.Move("left");
+				secondLetter.Move("left");
+				thirdLetter.Move("left");
 			}
 			else if (Keyboard.GetState().IsKeyDown(Keys.Right))
 			{
-				letterL.Move("right");
+				firstLetter.Move("right");
+				secondLetter.Move("right");
+				thirdLetter.Move("right");
 			}
 			else if (Keyboard.GetState().IsKeyDown(Keys.Up) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 			{
-				letterL.Move("up");
+				firstLetter.Move("up");
+				secondLetter.Move("up");
+				thirdLetter.Move("up");
 			}
 			else if (Keyboard.GetState().IsKeyDown(Keys.Down) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 			{
-				letterL.Move("down");
+				firstLetter.Move("down");
+				secondLetter.Move("down");
+				thirdLetter.Move("down");
 			}
 			else if (Keyboard.GetState().IsKeyDown(Keys.Up) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 			{
-				letterL.Move("front");
+				firstLetter.Move("front");
+				secondLetter.Move("front");
+				thirdLetter.Move("front");
 			}
 			else if (Keyboard.GetState().IsKeyDown(Keys.Down) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 			{
-				letterL.Move("back");
+				firstLetter.Move("back");
+				secondLetter.Move("back");
+				thirdLetter.Move("back");
 			}
 
 
 			base.Update(gameTime);
+		}
+
+		private void drawView(Viewport viewport, Camera camera)
+		{
+			GraphicsDevice.Viewport = viewport;
+			effect.World = Matrix.Identity;
+			effect.View = camera.view;
+			effect.Projection = camera.projection;
+			effect.VertexColorEnabled = true;
+			foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+			{
+				pass.Apply();
+
+				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
+
+				foreach (Cube cube in firstLetter.CubeList)
+				{
+					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+				}
+				foreach (Cube cube in secondLetter.CubeList)
+				{
+					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+				}
+				foreach (Cube cube in thirdLetter.CubeList)
+				{
+					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+				}
+			}
 		}
 
 		/// <summary>
@@ -169,76 +215,10 @@ namespace Eindopdracht
 			GraphicsDevice.Viewport = defaultViewport;
 			GraphicsDevice.Clear(Color.White);
 
-			GraphicsDevice.Viewport = leftTopViewport;
-			effect.World = Matrix.Identity;
-			effect.View = camera1.view;
-			effect.Projection = camera1.projection;
-			effect.VertexColorEnabled = true;
-			foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-			{
-				pass.Apply();
-
-				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
-
-				foreach(Cube cube in letterL.CubeList)
-				{
-					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
-				}
-			}
-
-			GraphicsDevice.Viewport = leftBottomViewport;
-			effect.World = Matrix.Identity;
-			effect.View = camera2.view;
-			effect.Projection = camera2.projection;
-			effect.VertexColorEnabled = true;
-			foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-			{
-				pass.Apply();
-
-				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
-				
-				foreach(Cube cube in letterL.CubeList)
-				{
-					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
-				}
-			}
-
-			GraphicsDevice.Viewport = rightTopViewport;
-			effect.World = Matrix.Identity;
-			effect.View = camera3.view;
-			effect.Projection = camera3.projection;
-			effect.VertexColorEnabled = true;
-			foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-			{
-				pass.Apply();
-
-				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
-				
-				foreach(Cube cube in letterL.CubeList)
-				{
-					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
-				}
-			}
-
-			GraphicsDevice.Viewport = rightBottomViewport;
-			effect.World = Matrix.Identity;
-			effect.View = camera4.view;
-			effect.Projection = camera4.projection;
-			effect.VertexColorEnabled = true;
-			foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-			{
-				pass.Apply();
-
-				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
-				
-				foreach(Cube cube in letterL.CubeList)
-				{
-					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
-				}
-			}
-
-
-
+			drawView(leftTopViewport, camera1);
+			drawView(leftBottomViewport, camera2);
+			drawView(rightTopViewport, camera3);
+			drawView(rightBottomViewport, camera4);
 
 			base.Draw(gameTime);
 		}

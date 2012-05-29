@@ -15,6 +15,7 @@ namespace Eindopdracht
 	public class Cube : DrawableGameComponent
 	{
 		private Vector3 startPoint;
+		private Color color;
 
 		private VertexPositionColor[] points;
 		public VertexPositionColor[] Points
@@ -30,10 +31,11 @@ namespace Eindopdracht
 			set { cubeStrip = value; }
 		}
 
-		public Cube(Game game, Vector3 startPoint)
+		public Cube(Game game, Vector3 startPoint, Color color)
 			: base(game)
 		{
 			this.startPoint = startPoint;
+			this.color = color;
 			FillPoints();
 			CreateCubeStrip();
 		}
@@ -52,14 +54,14 @@ namespace Eindopdracht
 		{
 			points = new VertexPositionColor[8];
 			
-			points[0] = new VertexPositionColor(startPoint + new Vector3(0, 0, 0), Color.Black);
-			points[1] = new VertexPositionColor(startPoint + new Vector3(1, 0, 0), Color.Black);
-			points[2] = new VertexPositionColor(startPoint + new Vector3(0, 1, 0), Color.Black);
-			points[3] = new VertexPositionColor(startPoint + new Vector3(1, 1, 0), Color.Black);
-			points[4] = new VertexPositionColor(startPoint + new Vector3(1, 1, 1), Color.Black);
-			points[5] = new VertexPositionColor(startPoint + new Vector3(0, 1, 1), Color.Black);
-			points[6] = new VertexPositionColor(startPoint + new Vector3(1, 0, 1), Color.Black);
-			points[7] = new VertexPositionColor(startPoint + new Vector3(0, 0, 1), Color.Black);
+			points[0] = new VertexPositionColor(startPoint + new Vector3(0, 0, 0), color);
+			points[1] = new VertexPositionColor(startPoint + new Vector3(1, 0, 0), color);
+			points[2] = new VertexPositionColor(startPoint + new Vector3(0, 1, 0), color);
+			points[3] = new VertexPositionColor(startPoint + new Vector3(1, 1, 0), color);
+			points[4] = new VertexPositionColor(startPoint + new Vector3(1, 1, 1), color);
+			points[5] = new VertexPositionColor(startPoint + new Vector3(0, 1, 1), color);
+			points[6] = new VertexPositionColor(startPoint + new Vector3(1, 0, 1), color);
+			points[7] = new VertexPositionColor(startPoint + new Vector3(0, 0, 1), color);
 		}
 
 		private void CreateCubeStrip()
