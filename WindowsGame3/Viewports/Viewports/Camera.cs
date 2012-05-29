@@ -23,12 +23,12 @@ namespace Viewports
 		private Vector3 target;
 		private Vector3 up;
 
-		public Camera(Game game, Matrix projection, Vector3 pos)
+		public Camera(Game game, Matrix projection, Vector3 pos, Vector3 up)
 			: base(game)
 		{
 			this.pos = pos;
 			target = Vector3.Zero;
-			up = Vector3.UnitY;;
+			this.up = up;
 
 			view = Matrix.CreateLookAt(pos, target, up);
 

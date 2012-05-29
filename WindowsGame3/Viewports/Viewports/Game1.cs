@@ -41,9 +41,9 @@ namespace Viewports
 			projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 4.0f / 3.0f, 1.0f, 10000f);
 			halfprojectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 2.0f / 3.0f, 1.0f, 10000f);
 
-			camera1 = new Camera(this, halfprojectionMatrix, new Vector3(1f, 1f, 5f));
+			camera1 = new Camera(this, halfprojectionMatrix, new Vector3(0f, 0f, 10f), Vector3.UnitY);
 
-			camera2 = new Camera(this, halfprojectionMatrix, new Vector3(0f, 0f, 5f));
+			camera2 = new Camera(this, halfprojectionMatrix, new Vector3(0f, 10f, 0f), Vector3.UnitZ);
 
 			cube = new Cube(this);
 			this.Components.Add(cube);
