@@ -27,7 +27,7 @@ namespace Eindopdracht
 		public Camera camera2 { get; protected set; }
 		public Camera camera3 { get; protected set; }
 		public Camera camera4 { get; protected set; }
-		private Cube cube;
+		private LetterL letterL;
 
 		Viewport defaultViewport;
 		Viewport leftTopViewport;
@@ -58,8 +58,8 @@ namespace Eindopdracht
 
 			camera4 = new Camera(this, quadprojectionMatrix, new Vector3(10f, 10f, 10f), Vector3.UnitZ);
 
-			cube = new Cube(this);
-			this.Components.Add(cube);
+			letterL = new LetterL(this);
+			this.Components.Add(letterL);
 		}
 
 		/// <summary>
@@ -131,27 +131,27 @@ namespace Eindopdracht
 
 			if (Keyboard.GetState().IsKeyDown(Keys.Left))
 			{
-				cube.Move("left");
+				letterL.Move("left");
 			}
 			else if (Keyboard.GetState().IsKeyDown(Keys.Right))
 			{
-				cube.Move("right");
+				letterL.Move("right");
 			}
 			else if (Keyboard.GetState().IsKeyDown(Keys.Up) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 			{
-				cube.Move("up");
+				letterL.Move("up");
 			}
 			else if (Keyboard.GetState().IsKeyDown(Keys.Down) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 			{
-				cube.Move("down");
+				letterL.Move("down");
 			}
 			else if (Keyboard.GetState().IsKeyDown(Keys.Up) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 			{
-				cube.Move("front");
+				letterL.Move("front");
 			}
 			else if (Keyboard.GetState().IsKeyDown(Keys.Down) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 			{
-				cube.Move("back");
+				letterL.Move("back");
 			}
 
 
@@ -180,7 +180,10 @@ namespace Eindopdracht
 
 				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
 
-				GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+				foreach(Cube cube in letterL.CubeList)
+				{
+					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+				}
 			}
 
 			GraphicsDevice.Viewport = leftBottomViewport;
@@ -193,8 +196,11 @@ namespace Eindopdracht
 				pass.Apply();
 
 				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
-
-				GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+				
+				foreach(Cube cube in letterL.CubeList)
+				{
+					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+				}
 			}
 
 			GraphicsDevice.Viewport = rightTopViewport;
@@ -207,8 +213,11 @@ namespace Eindopdracht
 				pass.Apply();
 
 				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
-
-				GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+				
+				foreach(Cube cube in letterL.CubeList)
+				{
+					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+				}
 			}
 
 			GraphicsDevice.Viewport = rightBottomViewport;
@@ -221,8 +230,11 @@ namespace Eindopdracht
 				pass.Apply();
 
 				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
-
-				GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+				
+				foreach(Cube cube in letterL.CubeList)
+				{
+					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
+				}
 			}
 
 

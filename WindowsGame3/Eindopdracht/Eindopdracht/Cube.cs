@@ -14,8 +14,9 @@ namespace Eindopdracht
 {
 	public class Cube : DrawableGameComponent
 	{
-		private VertexPositionColor[] points;
+		private Vector3 startPoint;
 
+		private VertexPositionColor[] points;
 		public VertexPositionColor[] Points
 		{
 			get { return points; }
@@ -29,16 +30,17 @@ namespace Eindopdracht
 			set { cubeStrip = value; }
 		}
 
-		public Cube(Game game)
+		public Cube(Game game, Vector3 startPoint)
 			: base(game)
 		{
+			this.startPoint = startPoint;
+			FillPoints();
+			CreateCubeStrip();
 		}
 
 		public override void Initialize()
 		{
 			base.Initialize();
-			FillPoints();
-			CreateCubeStrip();
 		}
 
 		protected override void LoadContent()
@@ -49,15 +51,15 @@ namespace Eindopdracht
 		private void FillPoints()
 		{
 			points = new VertexPositionColor[8];
-
-			points[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Black);
-			points[1] = new VertexPositionColor(new Vector3(1, 0, 0), Color.Black);
-			points[2] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Black);
-			points[3] = new VertexPositionColor(new Vector3(1, 1, 0), Color.Black);
-			points[4] = new VertexPositionColor(new Vector3(1, 1, 1), Color.Black);
-			points[5] = new VertexPositionColor(new Vector3(0, 1, 1), Color.Black);
-			points[6] = new VertexPositionColor(new Vector3(1, 0, 1), Color.Black);
-			points[7] = new VertexPositionColor(new Vector3(0, 0, 1), Color.Black);
+			
+			points[0] = new VertexPositionColor(startPoint + new Vector3(0, 0, 0), Color.Black);
+			points[1] = new VertexPositionColor(startPoint + new Vector3(1, 0, 0), Color.Black);
+			points[2] = new VertexPositionColor(startPoint + new Vector3(0, 1, 0), Color.Black);
+			points[3] = new VertexPositionColor(startPoint + new Vector3(1, 1, 0), Color.Black);
+			points[4] = new VertexPositionColor(startPoint + new Vector3(1, 1, 1), Color.Black);
+			points[5] = new VertexPositionColor(startPoint + new Vector3(0, 1, 1), Color.Black);
+			points[6] = new VertexPositionColor(startPoint + new Vector3(1, 0, 1), Color.Black);
+			points[7] = new VertexPositionColor(startPoint + new Vector3(0, 0, 1), Color.Black);
 		}
 
 		private void CreateCubeStrip()
