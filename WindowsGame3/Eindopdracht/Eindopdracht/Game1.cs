@@ -56,7 +56,7 @@ namespace Eindopdracht
 
 			camera2 = new Camera(this, quadprojectionMatrix, new Vector3(0f, 10f, 0f), Vector3.UnitZ);
 
-			camera3 = new Camera(this, quadprojectionMatrix, new Vector3(30f, 0f, 10f), Vector3.UnitY);
+			camera3 = new Camera(this, quadprojectionMatrix, new Vector3(10f, 0f, 0f), Vector3.UnitY);
 
 			camera4 = new Camera(this, quadprojectionMatrix, new Vector3(10f, 10f, 10f), Vector3.UnitY);
 
