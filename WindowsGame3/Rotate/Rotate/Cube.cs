@@ -52,13 +52,14 @@ namespace Translate
 
 
 
-		public void rotateCube(float x, float y, float z)
+		public void rotateCube(float x, float y, float z, float angle)
 		{
-			Matrix translationMatrix = Matrix.CreateTranslation(new Vector3(x, y, z));
-
+			Vector3 rotationVector = new Vector3(x, y, z);
+			rotationVector.Normalize();
+			Matrix rotationMatrix = Matrix.CreateFromAxisAngle(rotationVector, angle);
 			for (int i = 0; i < points.Length; i++)
 			{
-				points[i].Position = Vector3.Transform(points[i].Position, translationMatrix);
+				points[i].Position = Vector3.Transform(points[i].Position, rotationMatrix);
 			}
 		}
 
