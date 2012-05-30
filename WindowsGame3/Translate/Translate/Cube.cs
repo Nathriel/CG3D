@@ -50,6 +50,16 @@ namespace Translate
 			base.LoadContent();
 		}
 
+		public void translateCube(float x, float y, float z)
+		{
+			Matrix translationMatrix = Matrix.CreateTranslation(new Vector3(x,y,z));
+
+			for (int i = 0; i < points.Length; i++)
+			{
+				points[i].Position = Vector3.Transform(points[i].Position, translationMatrix);
+			}
+		}
+
 		private void FillPoints()
 		{
 			points = new VertexPositionColor[8];
