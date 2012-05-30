@@ -28,7 +28,6 @@ namespace Translate
 		public Camera camera3 { get; protected set; }
 		public Camera camera4 { get; protected set; }
 		private List<Cube> cubeList;
-		private Cube cube1;
 
 		Viewport defaultViewport;
 		Viewport leftTopViewport;
@@ -62,8 +61,17 @@ namespace Translate
 			cubeList = new List<Cube>();
 
 
-			cube1 = new Cube(this, new Vector3(0, 0, 0), Color.Blue);
+			Cube cube1 = new Cube(this, new Vector3(0, 0, 0), Color.Blue);
 			cubeList.Add(cube1);
+			Cube cube2 = new Cube(this, new Vector3(0, 0, 0), Color.Red);
+			cube2.translateCube(0, 2f, 0);
+			cubeList.Add(cube2);
+			Cube cube3 = new Cube(this, new Vector3(0, 0, 0), Color.Green);
+			cube3.translateCube(2f, 0, 0);
+			cubeList.Add(cube3);
+			Cube cube4 = new Cube(this, new Vector3(0, 0, 0), Color.Purple);
+			cube4.translateCube(2f, 2f, 0);
+			cubeList.Add(cube4);
 			this.Components.Add(cube1);
 		}
 
@@ -139,29 +147,27 @@ namespace Translate
 
 				if (Keyboard.GetState().IsKeyDown(Keys.Left))
 				{
-					//cube.Move("left");
-					cube.rotateX(2.0f);
+					cube.translateCube(-0.1f, 0, 0);
 				}
 				else if (Keyboard.GetState().IsKeyDown(Keys.Right))
 				{
-					//cube.Move("right");
-					cube.rotateX(-2.0f);
+					cube.translateCube(0.1f, 0, 0);
 				}
 				else if (Keyboard.GetState().IsKeyDown(Keys.Up) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 				{
-					cube.Move("up");
+					cube.translateCube(0, 0.1f, 0);
 				}
 				else if (Keyboard.GetState().IsKeyDown(Keys.Down) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 				{
-					cube.Move("down");
+					cube.translateCube(0, -0.1f, 0);
 				}
 				else if (Keyboard.GetState().IsKeyDown(Keys.Up) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 				{
-					cube.Move("front");
+					cube.translateCube(0, 0, -0.1f);
 				}
 				else if (Keyboard.GetState().IsKeyDown(Keys.Down) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 				{
-					cube.Move("back");
+					cube.translateCube(0, 0, 0.1f);
 				}
 			}
 

@@ -17,15 +17,13 @@ namespace Translate
 		private Vector3 startPoint;
 		private Color color;
 
-		Matrix rotation = Matrix.Identity;
-
 		private VertexPositionColor[] points;
 		public VertexPositionColor[] Points
 		{
 			get { return points; }
 			set { points = value; }
 		}
-		
+
 		private short[] cubeStrip;
 		public short[] CubeStrip
 		{
@@ -52,10 +50,32 @@ namespace Translate
 			base.LoadContent();
 		}
 
+
+
+		public void rotateCube(float x, float y, float z)
+		{
+			Matrix translationMatrix = Matrix.CreateTranslation(new Vector3(x, y, z));
+
+			for (int i = 0; i < points.Length; i++)
+			{
+				points[i].Position = Vector3.Transform(points[i].Position, translationMatrix);
+			}
+		}
+
+		public void translateCube(float x, float y, float z)
+		{
+			Matrix translationMatrix = Matrix.CreateTranslation(new Vector3(x, y, z));
+
+			for (int i = 0; i < points.Length; i++)
+			{
+				points[i].Position = Vector3.Transform(points[i].Position, translationMatrix);
+			}
+		}
+
 		private void FillPoints()
 		{
 			points = new VertexPositionColor[8];
-			
+
 			points[0] = new VertexPositionColor(startPoint + new Vector3(0, 0, 0), color);
 			points[1] = new VertexPositionColor(startPoint + new Vector3(1, 0, 0), color);
 			points[2] = new VertexPositionColor(startPoint + new Vector3(0, 1, 0), color);
@@ -133,11 +153,6 @@ namespace Translate
 					points[i].Position.Z -= 0.1f;
 				}
 			}
-		}
-
-		public void rotateX(float angle)
-		{
-			this.rotation += Matrix.CreateRotationX(angle);
 		}
 
 		public override void Update(GameTime gameTime)
