@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
-namespace Eindopdracht
+namespace Translate
 {
 	/// <summary>
 	/// This is the main type for your game
@@ -27,9 +27,8 @@ namespace Eindopdracht
 		public Camera camera2 { get; protected set; }
 		public Camera camera3 { get; protected set; }
 		public Camera camera4 { get; protected set; }
-		private LetterL firstLetter;
-		private LetterU secondLetter;
-		private LetterL thirdLetter;
+		private List<Cube> cubeList;
+		private Cube cube1;
 
 		Viewport defaultViewport;
 		Viewport leftTopViewport;
@@ -60,12 +59,12 @@ namespace Eindopdracht
 
 			camera4 = new Camera(this, quadprojectionMatrix, new Vector3(10f, 10f, 10f), Vector3.UnitY);
 
-			firstLetter = new LetterL(this, new Vector3(-4, 0, 0), Color.Blue);
-			this.Components.Add(firstLetter);
-			secondLetter = new LetterU(this, new Vector3(-1, 0, 0), Color.Red);
-			this.Components.Add(secondLetter);
-			thirdLetter = new LetterL(this, new Vector3(3, 0, 0), Color.Green);
-			this.Components.Add(thirdLetter);
+			cubeList = new List<Cube>();
+
+
+			cube1 = new Cube(this, new Vector3(0, 0, 0), Color.Blue);
+			cubeList.Add(cube1);
+			this.Components.Add(cube1);
 		}
 
 		/// <summary>
@@ -131,47 +130,38 @@ namespace Eindopdracht
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update(GameTime gameTime)
 		{
-			// Allows the game to exit
-			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-				this.Exit();
 
-			if (Keyboard.GetState().IsKeyDown(Keys.Left))
+			foreach (Cube cube in cubeList)
 			{
-				firstLetter.Move("left");
-				secondLetter.Move("left");
-				thirdLetter.Move("left");
-			}
-			else if (Keyboard.GetState().IsKeyDown(Keys.Right))
-			{
-				firstLetter.Move("right");
-				secondLetter.Move("right");
-				thirdLetter.Move("right");
-			}
-			else if (Keyboard.GetState().IsKeyDown(Keys.Up) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
-			{
-				firstLetter.Move("up");
-				secondLetter.Move("up");
-				thirdLetter.Move("up");
-			}
-			else if (Keyboard.GetState().IsKeyDown(Keys.Down) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
-			{
-				firstLetter.Move("down");
-				secondLetter.Move("down");
-				thirdLetter.Move("down");
-			}
-			else if (Keyboard.GetState().IsKeyDown(Keys.Up) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
-			{
-				firstLetter.Move("front");
-				secondLetter.Move("front");
-				thirdLetter.Move("front");
-			}
-			else if (Keyboard.GetState().IsKeyDown(Keys.Down) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
-			{
-				firstLetter.Move("back");
-				secondLetter.Move("back");
-				thirdLetter.Move("back");
-			}
+				// Allows the game to exit
+				if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+					this.Exit();
 
+				if (Keyboard.GetState().IsKeyDown(Keys.Left))
+				{
+					cube.Move("left");
+				}
+				else if (Keyboard.GetState().IsKeyDown(Keys.Right))
+				{
+					cube.Move("right");
+				}
+				else if (Keyboard.GetState().IsKeyDown(Keys.Up) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+				{
+					cube.Move("up");
+				}
+				else if (Keyboard.GetState().IsKeyDown(Keys.Down) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+				{
+					cube.Move("down");
+				}
+				else if (Keyboard.GetState().IsKeyDown(Keys.Up) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+				{
+					cube.Move("front");
+				}
+				else if (Keyboard.GetState().IsKeyDown(Keys.Down) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+				{
+					cube.Move("back");
+				}
+			}
 
 			base.Update(gameTime);
 		}
@@ -189,15 +179,7 @@ namespace Eindopdracht
 
 				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
 
-				foreach (Cube cube in firstLetter.CubeList)
-				{
-					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
-				}
-				foreach (Cube cube in secondLetter.CubeList)
-				{
-					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
-				}
-				foreach (Cube cube in thirdLetter.CubeList)
+				foreach (Cube cube in cubeList)
 				{
 					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, cube.Points, 0, 8, cube.CubeStrip, 0, 15);
 				}

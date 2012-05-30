@@ -1,6 +1,6 @@
 using System;
 
-namespace Viewports
+namespace Translate
 {
 #if WINDOWS || XBOX
     static class Program
