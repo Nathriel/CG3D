@@ -23,7 +23,7 @@ namespace Translate
 			get { return points; }
 			set { points = value; }
 		}
-
+		
 		private short[] cubeStrip;
 		public short[] CubeStrip
 		{
