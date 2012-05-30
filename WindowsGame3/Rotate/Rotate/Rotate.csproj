@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{41054C24-2525-4208-8F35-B69C5A08FE8A}</ProjectGuid>
+    <ProjectGuid>{79E1E6A4-C8F1-42CC-90BC-C645EA1290B4}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -146,7 +146,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TranslateContent\Content1\TranslateContent.contentproj">
+    <ProjectReference Include="..\..\Translate\TranslateContent\Content1\TranslateContent.contentproj">
       <Project>{D0CB9C0C-E308-405D-A7FC-2F8F8A4491BC}</Project>
       <Name>TranslateContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
