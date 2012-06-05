@@ -63,16 +63,12 @@ namespace Translate
 
 			Cube cube1 = new Cube(this, new Vector3(0, 0, 0), Color.Blue);
 			cubeList.Add(cube1);
-			Cube cube2 = new Cube(this, new Vector3(0, 0, 0), Color.Red);
-			cube2.translateCube(0, 2f, 0);
+			Cube cube2 = new Cube(this, new Vector3(0, 2f, 0), Color.Red);
 			cubeList.Add(cube2);
-			Cube cube3 = new Cube(this, new Vector3(0, 0, 0), Color.Green);
-			cube3.translateCube(2f, 0, 0);
+			Cube cube3 = new Cube(this, new Vector3(2f, 0, 0), Color.Green);
 			cubeList.Add(cube3);
-			Cube cube4 = new Cube(this, new Vector3(0, 0, 0), Color.Purple);
-			cube4.translateCube(2f, 2f, 0);
+			Cube cube4 = new Cube(this, new Vector3(2f, 2f, 0), Color.Purple);
 			cubeList.Add(cube4);
-			this.Components.Add(cube1);
 		}
 
 		/// <summary>
@@ -145,31 +141,41 @@ namespace Translate
 				if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 					this.Exit();
 
-				if (Keyboard.GetState().IsKeyDown(Keys.Left))
+
+				if (Keyboard.GetState().IsKeyDown(Keys.Left) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 				{
-					//cube.translateCube(-0.1f, 0, 0);
-					cube.rotateCube(1f, 1f, 1f, 0.1f);
+					cube.translateCube(new Vector3(-0.1f, 0, 0));
 				}
-				if (Keyboard.GetState().IsKeyDown(Keys.Right))
+				if (Keyboard.GetState().IsKeyDown(Keys.Right) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 				{
-					//cube.translateCube(0.1f, 0, 0);
-					cube.rotateCube(1f, 1f, 1f, -0.1f);
+					cube.translateCube(new Vector3(0.1f, 0, 0));
 				}
+
+				if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+				{
+					cube.rotateCube(new Vector3(1f, 1f, 1f), 0.1f);
+				}
+				if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+				{
+					cube.rotateCube(new Vector3(1f, 1f, 1f), -0.1f);
+				}
+
 				if (Keyboard.GetState().IsKeyDown(Keys.Up) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 				{
-					cube.translateCube(0, 0.1f, 0);
+					cube.translateCube(new Vector3(0, 0.1f, 0));
 				}
 				if (Keyboard.GetState().IsKeyDown(Keys.Down) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 				{
-					cube.translateCube(0, -0.1f, 0);
+					cube.translateCube(new Vector3(0, -0.1f, 0));
 				}
+
 				if (Keyboard.GetState().IsKeyDown(Keys.Up) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 				{
-					cube.translateCube(0, 0, -0.1f);
+					cube.translateCube(new Vector3(0, 0, -0.1f));
 				}
 				if (Keyboard.GetState().IsKeyDown(Keys.Down) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 				{
-					cube.translateCube(0, 0, 0.1f);
+					cube.translateCube(new Vector3(0, 0, 0.1f));
 				}
 			}
 

@@ -38,6 +38,7 @@ namespace Translate
 			this.color = color;
 			FillPoints();
 			CreateCubeStrip();
+			translateCube(startPoint);
 		}
 
 		public override void Initialize()
@@ -50,22 +51,42 @@ namespace Translate
 			base.LoadContent();
 		}
 
-
-
-		public void rotateCube(float x, float y, float z, float angle)
+		private Vector3 AllPointsTogether()
 		{
-			Vector3 rotationVector = new Vector3(x, y, z);
+			Vector3 ret = Vector3.Zero;
+			foreach (VertexPositionColor point in points)
+			{
+				ret += point.Position;
+			}
+			return ret;
+		}
+
+		private Vector3 CalcuteCenter()
+		{
+			Vector3 ret = AllPointsTogether();
+			ret = ret / points.Length;
+			return ret;
+		}
+
+		public void rotateCube(Vector3 rotationVector, float angle)
+		{
+			Vector3 center = CalcuteCenter();
+			translateCube(Vector3.Zero - center);
+
 			rotationVector.Normalize();
 			Matrix rotationMatrix = Matrix.CreateFromAxisAngle(rotationVector, angle);
 			for (int i = 0; i < points.Length; i++)
 			{
 				points[i].Position = Vector3.Transform(points[i].Position, rotationMatrix);
 			}
+
+
+			translateCube(center);
 		}
 
-		public void translateCube(float x, float y, float z)
+		public void translateCube(Vector3 vec)
 		{
-			Matrix translationMatrix = Matrix.CreateTranslation(new Vector3(x, y, z));
+			Matrix translationMatrix = Matrix.CreateTranslation(vec);
 
 			for (int i = 0; i < points.Length; i++)
 			{
@@ -77,14 +98,14 @@ namespace Translate
 		{
 			points = new VertexPositionColor[8];
 
-			points[0] = new VertexPositionColor(startPoint + new Vector3(0, 0, 0), color);
-			points[1] = new VertexPositionColor(startPoint + new Vector3(1, 0, 0), color);
-			points[2] = new VertexPositionColor(startPoint + new Vector3(0, 1, 0), color);
-			points[3] = new VertexPositionColor(startPoint + new Vector3(1, 1, 0), color);
-			points[4] = new VertexPositionColor(startPoint + new Vector3(1, 1, 1), color);
-			points[5] = new VertexPositionColor(startPoint + new Vector3(0, 1, 1), color);
-			points[6] = new VertexPositionColor(startPoint + new Vector3(1, 0, 1), color);
-			points[7] = new VertexPositionColor(startPoint + new Vector3(0, 0, 1), color);
+			points[0] = new VertexPositionColor(new Vector3(0, 0, 0), color);
+			points[1] = new VertexPositionColor(new Vector3(1, 0, 0), color);
+			points[2] = new VertexPositionColor(new Vector3(0, 1, 0), color);
+			points[3] = new VertexPositionColor(new Vector3(1, 1, 0), color);
+			points[4] = new VertexPositionColor(new Vector3(1, 1, 1), color);
+			points[5] = new VertexPositionColor(new Vector3(0, 1, 1), color);
+			points[6] = new VertexPositionColor(new Vector3(1, 0, 1), color);
+			points[7] = new VertexPositionColor(new Vector3(0, 0, 1), color);
 		}
 
 		private void CreateCubeStrip()
