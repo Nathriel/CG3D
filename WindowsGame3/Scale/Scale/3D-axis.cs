@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
-namespace Rotate
+namespace Scale
 {
 	public class _3D_axis : DrawableGameComponent
 	{

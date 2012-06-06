@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace Rotate
+namespace Scale
 {
 	public class Cube : DrawableGameComponent
 	{
@@ -18,13 +18,14 @@ namespace Rotate
 		private Color color;
 
 		private VertexPositionColor[] points;
+		private short[] cubeStrip;
+
 		public VertexPositionColor[] Points
 		{
 			get { return points; }
 			set { points = value; }
 		}
 
-		private short[] cubeStrip;
 		public short[] CubeStrip
 		{
 			get { return cubeStrip; }
@@ -39,6 +40,7 @@ namespace Rotate
 			FillPoints();
 			CreateCubeStrip();
 			TranslateCube(startPoint);
+			ScaleCube(new Vector3(2f, 0.5f, 0.5f));
 		}
 
 		public override void Initialize()
@@ -91,6 +93,16 @@ namespace Rotate
 			for (int i = 0; i < points.Length; i++)
 			{
 				points[i].Position = Vector3.Transform(points[i].Position, translationMatrix);
+			}
+		}
+
+		public void ScaleCube(Vector3 scaleVector)
+		{
+			Matrix scaleMatrix = Matrix.CreateScale(scaleVector);
+
+			for (int i = 0; i < points.Length; i++)
+			{
+				points[i].Position = Vector3.Transform(points[i].Position, scaleMatrix);
 			}
 		}
 

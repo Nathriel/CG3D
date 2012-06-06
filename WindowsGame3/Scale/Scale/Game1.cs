@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
-namespace Rotate
+namespace Scale
 {
 	/// <summary>
 	/// This is the main type for your game
@@ -31,8 +31,6 @@ namespace Rotate
 
 		private Random random;
 
-		private Vector3 rotationVector;
-
 		Viewport defaultViewport;
 		Viewport leftTopViewport;
 		Viewport rightTopViewport;
@@ -51,8 +49,6 @@ namespace Rotate
 			this.Components.Add(assenstelsel);
 
 			random = new Random();
-
-			rotationVector = new Vector3(random.Next(-4, 4), random.Next(-4, 4), random.Next(-4, 4));
 
 			projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 4.0f / 3.0f, 1.0f, 10000f);
 			halfprojectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 2.0f / 3.0f, 1.0f, 10000f);
@@ -143,6 +139,7 @@ namespace Rotate
 				if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 					this.Exit();
 
+
 				if (Keyboard.GetState().IsKeyDown(Keys.Left) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 				{
 					cube.TranslateCube(new Vector3(-0.1f, 0, 0));
@@ -154,11 +151,11 @@ namespace Rotate
 
 				if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 				{
-					cube.RotateCube(rotationVector, 0.1f);
+					cube.RotateCube(new Vector3(1f, 1f, 1f), 0.1f);
 				}
 				if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 				{
-					cube.RotateCube(rotationVector, -0.1f);
+					cube.RotateCube(new Vector3(1f, 1f, 1f), -0.1f);
 				}
 
 				if (Keyboard.GetState().IsKeyDown(Keys.Up) && !Keyboard.GetState().IsKeyDown(Keys.LeftControl))

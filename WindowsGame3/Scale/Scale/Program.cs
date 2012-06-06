@@ -1,6 +1,6 @@
 using System;
 
-namespace Rotate
+namespace Scale
 {
 #if WINDOWS || XBOX
     static class Program
