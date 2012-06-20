@@ -12,203 +12,29 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Zonnestelsel
 {
-	public class Planet : DrawableGameComponent
-	{
-		private Vector3 startPoint;
-		private Color color;
+	class Planet : Cube
+    {
+        float angle = 0;
 
-		private VertexPositionColor[] points;
-		private short[] cubeStrip;
+        public Planet(Game game, Vector3 size, Vector3 pos)
+            : base(game, size, pos)
+        {
 
-		public VertexPositionColor[] Points
-		{
-			get { return points; }
-			set { points = value; }
-		}
+        }
+        
+        public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
+        {
+            angle += 1f;
+            //rotatePlanetsAroundSun();
 
-		public short[] CubeStrip
-		{
-			get { return cubeStrip; }
-			set { cubeStrip = value; }
-		}
+            base.Update(gameTime);
+        }
 
-		public Planet(Game game, Vector3 startPoint, Vector3 scale, Color color)
-			: base(game)
-		{
-			this.startPoint = startPoint;
-			this.color = color;
-			FillPoints();
-			CreateCubeStrip();
-			TranslateCube(startPoint - CalcuteCenter());
-			ScaleCube(scale);
-		}
+        public void rotatePlanetsAroundSun()
+        {
+            Matrix rotation = Matrix.CreateRotationY(MathHelper.ToRadians(angle));
 
-		public override void Initialize()
-		{
-			base.Initialize();
-		}
-
-		protected override void LoadContent()
-		{
-			base.LoadContent();
-		}
-
-		private Vector3 AllPointsTogether()
-		{
-			Vector3 ret = Vector3.Zero;
-			foreach (VertexPositionColor point in points)
-			{
-				ret += point.Position;
-			}
-			return ret;
-		}
-
-		private Vector3 CalcuteCenter()
-		{
-			Vector3 ret = AllPointsTogether();
-			ret = ret / points.Length;
-			return ret;
-		}
-
-		public void RotateOnCenter(Vector3 rotationVector, float angle)
-		{
-			Vector3 center = CalcuteCenter();
-			TranslateCube(Vector3.Zero - center);
-
-			rotationVector.Normalize();
-			Matrix rotationMatrix = Matrix.CreateFromAxisAngle(rotationVector, angle);
-			for (int i = 0; i < points.Length; i++)
-			{
-				points[i].Position = Vector3.Transform(points[i].Position, rotationMatrix);
-			}
-
-
-			TranslateCube(center);
-		}
-
-		public void RotateOnPoint(Vector3 rotationVector, float angle)
-		{
-			rotationVector.Normalize();
-			Matrix rotationMatrix = Matrix.CreateFromAxisAngle(rotationVector, angle);
-			for (int i = 0; i < points.Length; i++)
-			{
-				points[i].Position = Vector3.Transform(points[i].Position, rotationMatrix);
-			}
-
-		}
-
-		public void TranslateCube(Vector3 translateVector)
-		{
-			Matrix translationMatrix = Matrix.CreateTranslation(translateVector);
-
-			for (int i = 0; i < points.Length; i++)
-			{
-				points[i].Position = Vector3.Transform(points[i].Position, translationMatrix);
-			}
-		}
-
-		public void ScaleCube(Vector3 scaleVector)
-		{
-			Matrix scaleMatrix = Matrix.CreateScale(scaleVector);
-
-			for (int i = 0; i < points.Length; i++)
-			{
-				points[i].Position = Vector3.Transform(points[i].Position, scaleMatrix);
-			}
-		}
-
-		private void FillPoints()
-		{
-			points = new VertexPositionColor[8];
-
-			points[0] = new VertexPositionColor(new Vector3(0, 0, 0), color);
-			points[1] = new VertexPositionColor(new Vector3(1, 0, 0), color);
-			points[2] = new VertexPositionColor(new Vector3(0, 1, 0), color);
-			points[3] = new VertexPositionColor(new Vector3(1, 1, 0), color);
-			points[4] = new VertexPositionColor(new Vector3(1, 1, 1), color);
-			points[5] = new VertexPositionColor(new Vector3(0, 1, 1), color);
-			points[6] = new VertexPositionColor(new Vector3(1, 0, 1), color);
-			points[7] = new VertexPositionColor(new Vector3(0, 0, 1), color);
-		}
-
-		private void CreateCubeStrip()
-		{
-			cubeStrip = new short[35];
-
-			cubeStrip[0] = 0;
-			cubeStrip[1] = 2;
-			cubeStrip[2] = 1;
-			cubeStrip[3] = 3;
-
-			cubeStrip[4] = 6;
-
-			cubeStrip[5] = 4;
-			cubeStrip[6] = 5;
-			cubeStrip[7] = 3;
-			cubeStrip[8] = 2;
-			cubeStrip[9] = 0;
-			cubeStrip[10] = 5;
-			cubeStrip[11] = 7;
-			cubeStrip[12] = 6;
-			cubeStrip[13] = 0;
-			cubeStrip[14] = 1;
-		}
-
-		public void Move(String direction)
-		{
-			if (direction == "left")
-			{
-				for (int i = 0; i < points.Length; i++)
-				{
-					points[i].Position.X -= 0.1f;
-				}
-			}
-			else if (direction == "right")
-			{
-				for (int i = 0; i < points.Length; i++)
-				{
-					points[i].Position.X += 0.1f;
-				}
-			}
-			else if (direction == "up")
-			{
-				for (int i = 0; i < points.Length; i++)
-				{
-					points[i].Position.Y += 0.1f;
-				}
-			}
-			else if (direction == "down")
-			{
-				for (int i = 0; i < points.Length; i++)
-				{
-					points[i].Position.Y -= 0.1f;
-				}
-			}
-			else if (direction == "front")
-			{
-				for (int i = 0; i < points.Length; i++)
-				{
-					points[i].Position.Z += 0.1f;
-				}
-			}
-			else if (direction == "back")
-			{
-				for (int i = 0; i < points.Length; i++)
-				{
-					points[i].Position.Z -= 0.1f;
-				}
-			}
-		}
-
-		public override void Update(GameTime gameTime)
-		{
-			base.Update(gameTime);
-
-		}
-
-		public override void Draw(GameTime gameTime)
-		{
-			base.Draw(gameTime);
-		}
+            this.world = rotation;
+        }
 	}
 }

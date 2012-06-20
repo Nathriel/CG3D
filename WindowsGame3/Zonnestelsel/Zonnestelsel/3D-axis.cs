@@ -16,7 +16,8 @@ namespace Zonnestelsel
 {
 	public class _3D_axis : DrawableGameComponent
 	{
-		private VertexPositionColor[] vertices;
+        private VertexPositionColor[] vertices;
+        private BasicEffect effect;
 
 		public VertexPositionColor[] Vertices
 		{
@@ -44,6 +45,7 @@ namespace Zonnestelsel
 		public override void Initialize()
 		{
 			base.Initialize();
+            effect = new BasicEffect(GraphicsDevice);
 		}
 
 		public override void Update(GameTime gameTime)
@@ -57,8 +59,25 @@ namespace Zonnestelsel
 		}
 
 		public override void Draw(GameTime gameTime)
-		{
-			base.Draw(gameTime);
+        {
+            effect.World = Matrix.Identity;
+            effect.View = ((Game1)this.Game).camera.view;
+            effect.Projection = ((Game1)this.Game).camera.projection;
+            effect.VertexColorEnabled = true;
+
+            //effect.Begin();
+            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+            {
+                //pass.Begin();
+                pass.Apply();
+                GraphicsDevice.DrawUserPrimitives<VertexPositionColor>
+                    (PrimitiveType.LineList, vertices, 0, 3);
+                //pass.Apply();
+                //pass.End();
+            }
+            //effect.End();
+
+            base.Draw(gameTime);
 		}
 	}
 }

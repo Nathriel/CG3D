@@ -17,44 +17,34 @@ namespace Zonnestelsel
 	public class Game1 : Microsoft.Xna.Framework.Game
 	{
 		GraphicsDeviceManager graphics;
-		SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
+        public SpriteFont font;
 
 		private BasicEffect effect;
 		private _3D_axis assenstelsel;
 		public Camera camera { get; protected set; }
-		private List<Planet> planetList;
-
-		private Planet sun;
-		private Planet earth;
 
 		Viewport defaultViewport;
-		Matrix projectionMatrix;
+
+        StarSystem Eridani_system;
 
 		public Game1()
 		{
-			graphics = new GraphicsDeviceManager(this);
+			this.graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
-			assenstelsel = new _3D_axis(this);
+			this.assenstelsel = new _3D_axis(this);
 			this.Components.Add(assenstelsel);
 
-			projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 4.0f / 3.0f, 1.0f, 10000f);
-
-			camera = new Camera(this, projectionMatrix, new Vector3(2f, 2f, 10f), Vector3.UnitY);
-
-			planetList = new List<Planet>();
-
-			sun = new Planet(this, new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), Color.Gold);
-			planetList.Add(sun);
-
-
-			earth = new Planet(this, new Vector3(3f, 3f, 3f), new Vector3(0.5f, 0.5f, 0.5f), Color.Gold);
-			planetList.Add(earth);
+            this.Eridani_system = new StarSystem(this);
 		}
 
 		
 		protected override void Initialize()
-		{
+        {
+            this.camera = new Camera(this, new Vector3(0, 0, 0), new Vector3(4, 4, 4), Vector3.UnitY);
+            this.Components.Add(this.camera);
+
 			effect = new BasicEffect(GraphicsDevice);
 			base.Initialize();
 		}
@@ -62,76 +52,27 @@ namespace Zonnestelsel
 		
 		protected override void LoadContent()
 		{
-			spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            this.font = Content.Load<SpriteFont> ("SpriteFont1");
 
 			defaultViewport = GraphicsDevice.Viewport;
 		}
 
-		
-		protected override void Update(GameTime gameTime)
-		{
 
-			// Allows the game to exit
-			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-				this.Exit();
+        protected override void Update(GameTime gameTime)
+        {
+            // Allows the game to exit
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                this.Exit();
 
-			if (Keyboard.GetState().IsKeyDown(Keys.Left))
-			{
-				camera.Move("left");
-			}
-			else if (Keyboard.GetState().IsKeyDown(Keys.Right))
-			{
-				camera.Move("right");
-			}
-			else if (Keyboard.GetState().IsKeyDown(Keys.Up))
-			{
-				camera.Move("up");
-			}
-			else if (Keyboard.GetState().IsKeyDown(Keys.Down))
-			{
-				camera.Move("down");
-			}
-
-
-			sun.RotateOnCenter(new Vector3(1f, 1f, 1f), 0.03f);
-
-			earth.RotateOnPoint(new Vector3(1f, 1f, 1f), 0.05f);
-			
-			
-
-			base.Update(gameTime);
-		}
-
-		private void drawView(Viewport viewport, Camera camera)
-		{
-			GraphicsDevice.Viewport = viewport;
-			effect.World = Matrix.Identity;
-			effect.View = camera.view;
-			effect.Projection = camera.projection;
-			effect.VertexColorEnabled = true;
-			foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-			{
-				pass.Apply();
-
-				GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, assenstelsel.Vertices, 0, 3);
-
-				foreach (Planet planet in planetList)
-				{
-					GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, planet.Points, 0, 8, planet.CubeStrip, 0, 15);
-				}
-			}
-		}
-
+            base.Update(gameTime);
+        }
 		
 		protected override void Draw(GameTime gameTime)
-		{
-			GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-
-			GraphicsDevice.Viewport = defaultViewport;
-			GraphicsDevice.Clear(Color.White);
-
-			drawView(defaultViewport, camera);
-
+        {
+            GraphicsDevice.Clear(Color.White);
+            this.assenstelsel.Draw(gameTime);
+            this.Eridani_system.Draw(gameTime);
 			base.Draw(gameTime);
 		}
 	}

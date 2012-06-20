@@ -109,10 +109,13 @@
   <ItemGroup>
     <Compile Include="3D-axis.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Cube.cs" />
     <Compile Include="Planet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="StarSystem.cs" />
+    <Compile Include="Sun.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -149,6 +152,11 @@
     <ProjectReference Include="..\..\Translate\TranslateContent\Content1\TranslateContent.contentproj">
       <Project>{D0CB9C0C-E308-405D-A7FC-2F8F8A4491BC}</Project>
       <Name>TranslateContent</Name>
+      <XnaReferenceType>Content</XnaReferenceType>
+    </ProjectReference>
+    <ProjectReference Include="..\ZonnestelselContent\ZonnestelselContent.contentproj">
+      <Project>{51E4F817-918B-4B61-8065-262E90B3FACD}</Project>
+      <Name>ZonnestelselContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>
