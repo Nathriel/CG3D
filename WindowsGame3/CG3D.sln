@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rotate", "Rotate\Rotate\Rot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scale", "Scale\Scale\Scale.csproj", "{AD028233-4652-46BE-9FC2-4447AFF54A1B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zonnestelsel", "Zonnestelsel\Zonnestelsel\Zonnestelsel.csproj", "{2C86CCE0-3CE2-414B-8296-8AE5EF91A37C}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "ZonnestelselContent", "Zonnestelsel\ZonnestelselContent\ZonnestelselContent.contentproj", "{51E4F817-918B-4B61-8065-262E90B3FACD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,16 @@ Global
 		{AD028233-4652-46BE-9FC2-4447AFF54A1B}.Release|Any CPU.ActiveCfg = Release|x86
 		{AD028233-4652-46BE-9FC2-4447AFF54A1B}.Release|x86.ActiveCfg = Release|x86
 		{AD028233-4652-46BE-9FC2-4447AFF54A1B}.Release|x86.Build.0 = Release|x86
+		{2C86CCE0-3CE2-414B-8296-8AE5EF91A37C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2C86CCE0-3CE2-414B-8296-8AE5EF91A37C}.Debug|x86.ActiveCfg = Debug|x86
+		{2C86CCE0-3CE2-414B-8296-8AE5EF91A37C}.Debug|x86.Build.0 = Debug|x86
+		{2C86CCE0-3CE2-414B-8296-8AE5EF91A37C}.Release|Any CPU.ActiveCfg = Release|x86
+		{2C86CCE0-3CE2-414B-8296-8AE5EF91A37C}.Release|x86.ActiveCfg = Release|x86
+		{2C86CCE0-3CE2-414B-8296-8AE5EF91A37C}.Release|x86.Build.0 = Release|x86
+		{51E4F817-918B-4B61-8065-262E90B3FACD}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{51E4F817-918B-4B61-8065-262E90B3FACD}.Debug|x86.ActiveCfg = Debug|x86
+		{51E4F817-918B-4B61-8065-262E90B3FACD}.Release|Any CPU.ActiveCfg = Release|x86
+		{51E4F817-918B-4B61-8065-262E90B3FACD}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
