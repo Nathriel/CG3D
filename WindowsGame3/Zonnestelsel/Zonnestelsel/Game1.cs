@@ -42,7 +42,7 @@ namespace Zonnestelsel
 		
 		protected override void Initialize()
         {
-            this.camera = new Camera(this, new Vector3(0, 0, 0), new Vector3(4, 4, 4), Vector3.UnitY);
+            this.camera = new Camera(this, new Vector3(0, 0, 0), new Vector3(10, 10, 10), Vector3.UnitY);
             this.Components.Add(this.camera);
 
 			effect = new BasicEffect(GraphicsDevice);
@@ -70,7 +70,7 @@ namespace Zonnestelsel
 		
 		protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(Color.Black);
             this.assenstelsel.Draw(gameTime);
             this.Eridani_system.Draw(gameTime);
 			base.Draw(gameTime);

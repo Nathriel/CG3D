@@ -14,7 +14,8 @@ namespace Zonnestelsel
 {
 	class Planet : Cube
     {
-        float angle = 0;
+        public float angle = 0;
+        public float angle_increase = 1;
 
         public Planet(Game game, Vector3 size, Vector3 pos)
             : base(game, size, pos)
@@ -24,8 +25,8 @@ namespace Zonnestelsel
         
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            angle += 1f;
-            //rotatePlanetsAroundSun();
+            angle += angle_increase;
+            rotatePlanetsAroundSun();
 
             base.Update(gameTime);
         }

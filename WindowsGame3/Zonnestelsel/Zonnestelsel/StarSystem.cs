@@ -27,12 +27,37 @@ namespace Zonnestelsel
             vulcanis_a = new Sun(game, new Vector3(1f, 1f, 1f), new Vector3(-0.5f, -0.5f, -0.5f));
             vulcanis_a.color = Color.Yellow;
             vulcanis_a.name = "Vulcanis A";
-            ket_cheleb = new Planet(game, new Vector3(-0.2f, -0.2f, -0.2f), new Vector3(2.5f, -0.10f, 2.5f));
+            ket_cheleb = new Planet(game, new Vector3(-0.2f, -0.2f, -0.2f), new Vector3(5f, -0.10f, 5f));
             ket_cheleb.name = "Ket Cheleb";
+            ket_cheleb.angle_increase = 2f;
+            vulcan = new Planet(game, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(6f, -0.10f, 6f));
+            vulcan.name = "Vulcan";
+            vulcan.color = Color.IndianRed;
+            valdena = new Planet(game, new Vector3(-0.4f, -0.4f, -0.4f), new Vector3(8f, -0.10f, 8f));
+            valdena.name = "Valdena";
+            valdena.color = Color.PaleVioletRed;
+            valdena.angle_increase = 0.1f;
+            tel_alep = new Planet(game, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(13f, -0.10f, 13f));
+            tel_alep.name = "Tel Alep";
+            tel_alep.color = Color.PaleTurquoise;
+            tel_alep.angle_increase = 0.8f;
+            kal_apton = new Planet(game, new Vector3(-0.7f, -0.7f, -0.7f), new Vector3(13f, -0.10f, 13f));
+            kal_apton.name = "Kal Apton";
+            kal_apton.color = Color.DarkOliveGreen;
+            kal_apton.angle_increase = 0.2f;
+            kir_alep = new Planet(game, new Vector3(-0.5f, -0.5f, -0.5f), new Vector3(15f, -0.10f, 15f));
+            kir_alep.name = "Kir Alep";
+            kir_alep.color = Color.DarkCyan;
+            kir_alep.angle_increase = 0.4f;
 
             //Add
-            game.Components.Add(ket_cheleb);
             game.Components.Add(vulcanis_a);
+            game.Components.Add(ket_cheleb);
+            game.Components.Add(vulcan);
+            game.Components.Add(valdena);
+            game.Components.Add(tel_alep);
+            game.Components.Add(kal_apton);
+            game.Components.Add(kir_alep);
         }
 
         public override void Update(GameTime gameTime)
@@ -43,9 +68,6 @@ namespace Zonnestelsel
 
         public override void Draw(GameTime gameTime)
         {
-            vulcanis_a.Draw(gameTime);
-            ket_cheleb.Draw(gameTime);
-
             base.Draw(gameTime);
         }
 

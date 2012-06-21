@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zonnestelsel
 {
-    class Cube : Microsoft.Xna.Framework.DrawableGameComponent
+    public class Cube : Microsoft.Xna.Framework.DrawableGameComponent
     {
         public string name;
 
@@ -84,7 +84,7 @@ namespace Zonnestelsel
         public override void Draw(GameTime gameTime)
         {
             DrawScene(gameTime);
-            drawPlanetText();
+            drawPlanetText(gameTime);
             base.Draw(gameTime);
         }
 
@@ -104,7 +104,7 @@ namespace Zonnestelsel
                 GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             }
         }
-        private Vector3 AllPointsTogether()
+        public Vector3 AllPointsTogether()
         {
             Vector3 ret = Vector3.Zero;
             foreach (VertexPositionColor point in TriangleList)
@@ -114,7 +114,7 @@ namespace Zonnestelsel
             return ret;
         }
 
-        private Vector3 CalcuteCenter()
+        public Vector3 CalcuteCenter()
         {
             Vector3 ret = AllPointsTogether();
             ret = ret / TriangleList.Length;
@@ -157,14 +157,14 @@ namespace Zonnestelsel
             }
         }
 
-        public void drawPlanetText()
+        public void drawPlanetText(GameTime gameTime)
         {
             Vector3 screenSpace;
             Vector2 textPosition;
             Vector2 stringCenter;
 
             // calculate screenspace of text3d space position
-            screenSpace = GraphicsDevice.Viewport.Project(Vector3.Zero, ((Game1)this.Game).camera.projection, ((Game1)this.Game).camera.view, Matrix.Identity);
+            screenSpace = GraphicsDevice.Viewport.Project(this.CalcuteCenter(), ((Game1)this.Game).camera.projection, ((Game1)this.Game).camera.view, this.world);
 
             // get 2D position from screenspace vector
             textPosition.X = screenSpace.X;
@@ -180,10 +180,13 @@ namespace Zonnestelsel
             // now subtract the string center from the text position to find correct position
             textPosition.X = (int)(textPosition.X - stringCenter.X);
             textPosition.Y = (int)(textPosition.Y - stringCenter.Y);
-
+            
             ((Game1)this.Game).spriteBatch.Begin();
-            ((Game1)this.Game).spriteBatch.DrawString(((Game1)this.Game).font, this.name, textPosition, Color.Black);
+            ((Game1)this.Game).spriteBatch.DrawString(((Game1)this.Game).font, this.name, textPosition, Color.GhostWhite);
             ((Game1)this.Game).spriteBatch.End();
+
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
         }
     }
 }

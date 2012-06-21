@@ -33,7 +33,7 @@ namespace Zonnestelsel
 
 			view = Matrix.CreateLookAt(pos, target, up);
 
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, (float)Game.Window.ClientBounds.Width / (float)Game.Window.ClientBounds.Height, 1, 10);
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, (float)Game.Window.ClientBounds.Width / (float)Game.Window.ClientBounds.Height, 1, 100);
 		}
 
 		public override void Initialize()
